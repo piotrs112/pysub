@@ -9,8 +9,9 @@ from bs4.element import Tag
 #file args
 parser = argparse.ArgumentParser()
 parser.add_argument('--filename', help="TV show filename")
+parser.add_argument('-v', '--verbose', help="increase output verbosity", action="store_true")
 args = parser.parse_args()
-print(args.filename)
+if args.verbose: print("Filename: {}".format(args.filename))
 
 
 #file properties for now
@@ -63,5 +64,6 @@ for row in all_subs:
 
 
 #print out the subtitles
-for sub in subs:
-    print("{}   {}".format(sub['lang'], sub['vers']))
+if args.verbose:
+    for sub in subs:
+        print("{}   {}".format(sub['lang'], sub['vers']))
