@@ -39,14 +39,17 @@ if show != None and show != []:
 r = connect("https://addic7ed.com/season/{}/{}".format(showID, q_season))
 all_subs = BeautifulSoup(r.text, "lxml", parse_only=SoupStrainer('tr')).find_all('tr', {'class': 'epeven'})
 
-ok_subs = []
+subs = []
 #format data
 for row in all_subs:
     row = row('td')
-    for cell in row:
-        cell = cell.text
-    ok_subs.append({
-    'ep': row[1],
-    'lang': row[3],
-    'vers': row[4],
+    subs.append({
+    'ep': row[1].text,
+    'lang': row[3].text,
+    'vers': row[4].text,
     })
+
+
+#print out the subtitles
+for sub in subs:
+    print("{}   {}".format(sub['lang'], sub['vers']))
