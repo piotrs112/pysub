@@ -1,8 +1,17 @@
+import argparse
 import requests
 from bs4 import BeautifulSoup
 from bs4 import SoupStrainer
 from bs4.element import Tag
 #from user_agent import generate_user_agent
+
+
+#file args
+parser = argparse.ArgumentParser()
+parser.add_argument('--filename', help="TV show filename")
+args = parser.parse_args()
+print(args.filename)
+
 
 #file properties for now
 q_name = "Chilling Adventures of Sabrina"
@@ -44,10 +53,13 @@ subs = []
 for row in all_subs:
     row = row('td')
     subs.append({
-    'ep': row[1].text,
     'lang': row[3].text,
     'vers': row[4].text,
     })
+
+
+#filters
+
 
 
 #print out the subtitles
