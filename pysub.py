@@ -68,14 +68,16 @@ for row in all_subs:
         subs.append({
         'lang': row[3].text,
         'vers': row[4].text,
+        'download': row[9].a.get('href')
         })
 
 
-#filters
-
+#download srt
+r = requests.get("https://addic7ed.com" + subs[0]['download'], allow_redirects=True)
+open(filename+'.srt', 'wb').write(r.content)
 
 
 #print out the subtitles
 if args.verbose:
     for sub in subs:
-        print('{}   {}'.format(sub['lang'], sub['vers']))
+        print('{}   {}  {}'.format(sub['lang'], sub['vers'], sub['download']))
