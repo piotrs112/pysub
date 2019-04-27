@@ -21,12 +21,7 @@ q_season, q_episode = re.findall(r'\d\d', args.filename[search.span()[0]:search.
 q_name = args.filename[0:search.span()[0]].replace('.', ' ').strip().title()
 q_version = args.filename[search.span()[1]:]
 
-query = {
-q_season,
-q_episode,
-q_name,
-q_version,
-}
+
 print(q_name)
 
 def connect(addr: str):
