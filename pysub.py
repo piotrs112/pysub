@@ -9,19 +9,17 @@ from bs4.element import Tag
 
 #file args
 parser = argparse.ArgumentParser()
-parser.add_argument('--filename', help='TV show filename')
+parser.add_argument('-f', '--filename', help='TV show filename')
 parser.add_argument('-v', '--verbose', help='Increase output verbosity', action='store_true')
 args = parser.parse_args()
-if args.verbose: print('Filename: {}'.format(args.filename))
+if args.verbose: print('filename: {}'.format(args.filename))
 
 
-args.verbose = True
 #file properties for now
-filename = 'the.magicians.(2016).s02e05.web.x264-sva[ettv].mkv'
-search = re.search(r's\d\de\d\d', filename)
-q_season, q_episode = re.findall(r'\d\d', filename[search.span()[0]:search.span()[1]])
-q_name = filename[0:search.span()[0]].replace('.', ' ').strip().title()
-q_version = filename[search.span()[1]:]
+search = re.search(r's\d\de\d\d', args.filename)
+q_season, q_episode = re.findall(r'\d\d', args.filename[search.span()[0]:search.span()[1]])
+q_name = args.filename[0:search.span()[0]].replace('.', ' ').strip().title()
+q_version = args.filename[search.span()[1]:]
 
 query = {
 q_season,
@@ -52,7 +50,6 @@ showlist = BeautifulSoup(r.text, 'lxml', parse_only=SoupStrainer(id='qsShow'))
 show = showlist.find(string=q_name).parent
 ## TODO: add proper search check
 if show != None and show != []:
-    #print('NAME: {} ID: {}'.format(show.get_text(), show.get('value')))
     showID = show.get('value')
 
 
@@ -74,7 +71,7 @@ for row in all_subs:
 
 #download srt
 r = requests.get("https://addic7ed.com" + subs[0]['download'], allow_redirects=True)
-open(filename+'.srt', 'wb').write(r.content)
+open(args.filename+'.srt', 'wb').write(r.content)
 
 
 #print out the subtitles
